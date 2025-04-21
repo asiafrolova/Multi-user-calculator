@@ -15,8 +15,8 @@ Service to parse and calculate simple arithmetic expressions.
    
 **Fast start**
 ```
-git clone https://github.com/asiafrolova/Final_task.git
-cd Final_task/backend/orkestrator_service
+git clone https://github.com/asiafrolova/Multi-user-calculator.git
+cd Multi-user-calculator/backend/orkestrator_service
 go mod tidy
 go run ./cmd/main.go
 ```
@@ -24,7 +24,7 @@ go run ./cmd/main.go
 In a separate terminal!
 
 ```
-cd Final_task/backend/agent_service
+cd Multi-user-calculator/backend/agent_service
 go mod tidy
 go run ./cmd/main.go
 
