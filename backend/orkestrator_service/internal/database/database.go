@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"unicode"
 
-	"github.com/asiafrolova/Final_task/orkestrator_service/internal/logger"
-	"github.com/asiafrolova/Final_task/orkestrator_service/pkg/orkestrator"
+	"github.com/asiafrolova/Multi-user-calculator/orkestrator_service/internal/logger"
+	"github.com/asiafrolova/Multi-user-calculator/orkestrator_service/pkg/orkestrator"
 	_ "github.com/mattn/go-sqlite3"
 )
 

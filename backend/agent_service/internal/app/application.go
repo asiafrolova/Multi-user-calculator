@@ -10,8 +10,8 @@ import (
 	"strconv"
 	"time"
 
-	logger "github.com/asiafrolova/Final_task/agent_service/internal/logger"
-	calculator "github.com/asiafrolova/Final_task/agent_service/pkg"
+	logger "github.com/asiafrolova/Multi-user-calculator/agent_service/internal/logger"
+	calculator "github.com/asiafrolova/Multi-user-calculator/agent_service/pkg"
 )
 
 type Config struct {

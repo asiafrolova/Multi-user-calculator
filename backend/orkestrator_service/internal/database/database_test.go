@@ -3,8 +3,8 @@ package database_test
 import (
 	"testing"
 
-	"github.com/asiafrolova/Final_task/orkestrator_service/internal/database"
-	"github.com/asiafrolova/Final_task/orkestrator_service/pkg/orkestrator"
+	"github.com/asiafrolova/Multi-user-calculator/orkestrator_service/internal/database"
+	"github.com/asiafrolova/Multi-user-calculator/orkestrator_service/pkg/orkestrator"
 )
 
 func TestUserTable(t *testing.T) {

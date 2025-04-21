@@ -1,4 +1,4 @@
-module github.com/asiafrolova/Final_task/orkestrator_service
+module github.com/asiafrolova/Multi-user-calculator/orkestrator_service
 
 go 1.23.3
 
@@ -7,7 +7,4 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.27
 )
 
-require (
-	github.com/rs/cors v1.11.1
-	golang.org/x/crypto v0.37.0
-)
+require golang.org/x/crypto v0.37.0

@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/asiafrolova/Final_task/orkestrator_service/pkg/orkestrator"
+	"github.com/asiafrolova/Multi-user-calculator/orkestrator_service/pkg/orkestrator"
 )
 
 func TestTokenizeOK(t *testing.T) {

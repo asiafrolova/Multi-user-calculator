@@ -3,7 +3,7 @@ package calculator_test
 import (
 	"testing"
 
-	calculator "github.com/asiafrolova/Final_task/agent_service/pkg"
+	calculator "github.com/asiafrolova/Multi-user-calculator/agent_service/pkg"
 )
 
 func TestParseOK(t *testing.T) {

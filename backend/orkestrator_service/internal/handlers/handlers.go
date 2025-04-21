@@ -8,10 +8,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/asiafrolova/Final_task/orkestrator_service/internal/database"
-	logger "github.com/asiafrolova/Final_task/orkestrator_service/internal/logger"
-	repo "github.com/asiafrolova/Final_task/orkestrator_service/internal/repo"
-	orkestrator "github.com/asiafrolova/Final_task/orkestrator_service/pkg/orkestrator"
+	"github.com/asiafrolova/Multi-user-calculator/orkestrator_service/internal/database"
+	logger "github.com/asiafrolova/Multi-user-calculator/orkestrator_service/internal/logger"
+	repo "github.com/asiafrolova/Multi-user-calculator/orkestrator_service/internal/repo"
+	orkestrator "github.com/asiafrolova/Multi-user-calculator/orkestrator_service/pkg/orkestrator"
 	jwt "github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 )

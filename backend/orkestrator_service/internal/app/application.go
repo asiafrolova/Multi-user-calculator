@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/asiafrolova/Final_task/orkestrator_service/internal/database"
-	handlers "github.com/asiafrolova/Final_task/orkestrator_service/internal/handlers"
-	logger "github.com/asiafrolova/Final_task/orkestrator_service/internal/logger"
-	"github.com/asiafrolova/Final_task/orkestrator_service/internal/repo"
-	"github.com/asiafrolova/Final_task/orkestrator_service/pkg/orkestrator"
+	"github.com/asiafrolova/Multi-user-calculator/orkestrator_service/internal/database"
+	handlers "github.com/asiafrolova/Multi-user-calculator/orkestrator_service/internal/handlers"
+	logger "github.com/asiafrolova/Multi-user-calculator/orkestrator_service/internal/logger"
+	"github.com/asiafrolova/Multi-user-calculator/orkestrator_service/internal/repo"
+	"github.com/asiafrolova/Multi-user-calculator/orkestrator_service/pkg/orkestrator"
 )
 
 type Config struct {
@@ -37,7 +37,7 @@ func New() *Application {
 	return &Application{config: ConfigFromEnv()}
 
 }
-func (a *Application) RunServer() error {
+func (a *Application) RunServer() {
 	mux := http.NewServeMux()
 
 	// Регистрируем маршруты
@@ -54,25 +54,9 @@ func (a *Application) RunServer() error {
 
 	// Оборачиваем весь mux в CORS middleware
 	handler := handlers.WithCORS(mux)
-
 	logger.Info(fmt.Sprintf("Server started at :%s", a.config.Addr))
-	return http.ListenAndServe(":"+a.config.Addr, handler)
+	for {
+		http.ListenAndServe(":"+a.config.Addr, handler)
+	}
+
 }
-
-// func (a *Application) RunServer() error {
-
-// 	logger.Info(fmt.Sprintf("Server started address: %s", a.config.Addr))
-
-// 	http.HandleFunc("/api/v1/calculate", handlers.AddExpressionsHandler)
-// 	http.HandleFunc("/api/v1/expressions", handlers.GetExpressionsListHandler)
-// 	http.HandleFunc("/api/v1/expressions/{id}", handlers.GetExpressionByIDHandler)
-// 	http.HandleFunc("/api/v1/register", handlers.RegisterUser)
-// 	http.HandleFunc("/api/v1/login", handlers.LoginUser)
-// 	http.HandleFunc("/api/v1/delete/user", handlers.DeleteUser)
-// 	http.HandleFunc("/internal/task", handlers.GetTaskHandler)
-// 	http.HandleFunc("/api/v1/delete/expressions", handlers.DeleteExpressions)
-// 	http.HandleFunc("/api/v1/delete/expressions/{id}", handlers.DeleteExpressionByID)
-// 	http.HandleFunc("/api/v1/update/user", handlers.UpdateUser)
-
-// 	return http.ListenAndServe(":"+a.config.Addr, nil)
-// }

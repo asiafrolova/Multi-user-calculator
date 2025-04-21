@@ -75,9 +75,13 @@ function fetchExpressions() {
     const list = document.getElementById('expressions-list');
     list.innerHTML = '';
     data.expressions.forEach(expr => {
-      console.log(expr)
       const li = document.createElement('li');
-      li.textContent = `${expr.exp} = ${expr.result || '...'} [${expr.status}]`;
+      res = expr.result
+      console.log(expr.status=="Completed",expr.status)
+      if (expr.status!="Completed"){
+        res="..."
+      }
+      li.textContent = `${expr.exp} = ${res} [${expr.status}]`;
       const delBtn = document.createElement('button');
       delBtn.textContent = 'Delete';
       delBtn.onclick = () => deleteExpression(expr.id);

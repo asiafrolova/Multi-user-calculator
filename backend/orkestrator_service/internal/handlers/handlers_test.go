@@ -10,10 +10,10 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/asiafrolova/Final_task/orkestrator_service/internal/database"
-	"github.com/asiafrolova/Final_task/orkestrator_service/internal/handlers"
-	"github.com/asiafrolova/Final_task/orkestrator_service/internal/logger"
-	"github.com/asiafrolova/Final_task/orkestrator_service/pkg/orkestrator"
+	"github.com/asiafrolova/Multi-user-calculator/orkestrator_service/internal/database"
+	"github.com/asiafrolova/Multi-user-calculator/orkestrator_service/internal/handlers"
+	"github.com/asiafrolova/Multi-user-calculator/orkestrator_service/internal/logger"
+	"github.com/asiafrolova/Multi-user-calculator/orkestrator_service/pkg/orkestrator"
 )
 
 func RegisterAndLoginUser() string {
