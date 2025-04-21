@@ -53,7 +53,7 @@ curl --location 'localhost:8080/api/v1/register' \
 
 *Login*
 ```
-curl --location 'localhost:8080/api/v1/register' \
+curl --location 'localhost:8080/api/v1/login' \
 --header 'Content-Type: application/json' \
 --data '{
   "login": "<user name>",
@@ -69,6 +69,7 @@ curl --location 'localhost:8080/api/v1/register' \
 ```
 curl --location 'localhost:8080/api/v1/calculate' \
 --header 'Content-Type: application/json' \
+--header 'Authorization: Bearer <token>' \
 --data '{
   "expression": "(3.14*2)"
 }'
@@ -81,7 +82,8 @@ curl --location 'localhost:8080/api/v1/calculate' \
 
 *GET expression by id*
 ```
-curl --location 'localhost:8080/api/v1/expressions/1'
+curl --location 'localhost:8080/api/v1/expressions/1' \
+--header 'Authorization: Bearer <token>' 
 ```
 -Successfully
 `{
@@ -95,7 +97,8 @@ curl --location 'localhost:8080/api/v1/expressions/1'
 
 *GET list expressions*
 ```
-curl --location 'localhost:8080/api/v1/expressions'
+curl --location 'localhost:8080/api/v1/expressions' \
+--header 'Authorization: Bearer <token>' 
 ```
 -Successfully
 `{
@@ -116,7 +119,8 @@ curl --location 'localhost:8080/api/v1/expressions'
 
 *DELETE expression by id*
 ```
-curl --location 'localhost:8080/api/v1/delete/expressions/1'
+curl --location 'localhost:8080/api/v1/delete/expressions/1' \
+--header 'Authorization: Bearer <token>' 
 ```
 -Successfully
 `{
@@ -129,7 +133,8 @@ curl --location 'localhost:8080/api/v1/delete/expressions/1'
 *DELETE all user's expressions*
 
 ```
-curl --location 'localhost:8080/api/v1/delete/expressions'
+curl --location 'localhost:8080/api/v1/delete/expressions' \
+--header 'Authorization: Bearer <token>' 
 ```
 -Successfully
 `{
@@ -139,25 +144,50 @@ curl --location 'localhost:8080/api/v1/delete/expressions'
 }
 }`
 
+*DELETE user account*
+
+```
+curl --location 'localhost:8080/api/v1/delete/user' \
+--header 'Authorization: Bearer <token>' 
+```
+
+-Successfully
+`{
+    "id": 1
+}`
+
+
 
 **Examples errors**
+
+*Name or password is incorrect*
+
+curl --location 'localhost:8080/api/v1/login' \
+--header 'Content-Type: application/json' \
+--data '{
+  "login": "<user name>",
+  "password":"<uncorrect password>"
+}'
 
 *Invalid expression*
 
 `curl --location 'localhost:8080/api/v1/calculate' \
 --header 'Content-Type: application/json' \
+--header 'Authorization: Bearer <token>' \
 --data '{
   "expression": "((32*2)"
 }'`
 
 `curl --location 'localhost:8080/api/v1/calculate' \
 --header 'Content-Type: application/json' \
+--header 'Authorization: Bearer <token>' \
 --data '{
   "expression": "3a-1"
 }'`
 
 `curl --location 'localhost:8080/api/v1/calculate' \
 --header 'Content-Type: application/json' \
+--header 'Authorization: Bearer <token>' \
 --data '{
   "expression": "3++1"
 }'`
@@ -166,6 +196,7 @@ curl --location 'localhost:8080/api/v1/delete/expressions'
 
 `curl --location 'localhost:8080/api/v1/calculate' \
 --header 'Content-Type: application/json' \
+--header 'Authorization: Bearer <token>' \
 --data '{
   "expression": "1/0"
 }'`
@@ -173,6 +204,7 @@ curl --location 'localhost:8080/api/v1/delete/expressions'
 
 `curl --location 'localhost:8080/api/v1/calculate' \
 --header 'Content-Type: application/json' \
+--header 'Authorization: Bearer <token>' \
 --data '{
   "expression": "3.0.0-1"
 }'`

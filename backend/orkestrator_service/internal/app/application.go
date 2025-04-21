@@ -37,20 +37,42 @@ func New() *Application {
 	return &Application{config: ConfigFromEnv()}
 
 }
-
 func (a *Application) RunServer() error {
+	mux := http.NewServeMux()
 
-	logger.Info(fmt.Sprintf("Server started address: %s", a.config.Addr))
-	http.HandleFunc("/api/v1/calculate", handlers.AddExpressionsHandler)
-	http.HandleFunc("/api/v1/expressions", handlers.GetExpressionsListHandler)
-	http.HandleFunc("/api/v1/expressions/{id}", handlers.GetExpressionByIDHandler)
-	http.HandleFunc("/api/v1/register", handlers.RegisterUser)
-	http.HandleFunc("/api/v1/login", handlers.LoginUser)
-	http.HandleFunc("/api/v1/delete/user", handlers.DeleteUser)
-	http.HandleFunc("/internal/task", handlers.GetTaskHandler)
+	// Регистрируем маршруты
+	mux.Handle("/api/v1/calculate", http.HandlerFunc(handlers.AddExpressionsHandler))
+	mux.Handle("/api/v1/expressions", http.HandlerFunc(handlers.GetExpressionsListHandler))
+	mux.Handle("/api/v1/delete/expressions/{id}", http.HandlerFunc(handlers.DeleteExpressionByID))
+	mux.Handle("/api/v1/expressions/{id}", http.HandlerFunc(handlers.GetExpressionByIDHandler))
+	mux.Handle("/api/v1/register", http.HandlerFunc(handlers.RegisterUser))
+	mux.Handle("/api/v1/login", http.HandlerFunc(handlers.LoginUser))
+	mux.Handle("/api/v1/delete/user", http.HandlerFunc(handlers.DeleteUser))
+	mux.Handle("/internal/task", http.HandlerFunc(handlers.GetTaskHandler))
+	mux.Handle("/api/v1/delete/expressions", http.HandlerFunc(handlers.DeleteExpressions))
+	mux.Handle("/api/v1/update/user", http.HandlerFunc(handlers.UpdateUser))
 
-	http.HandleFunc("/api/v1/delete/expressions", handlers.DeleteExpressions)
-	http.HandleFunc("/api/v1/delete/expressions/{id}", handlers.DeleteExpressionByID)
-	http.HandleFunc("/api/v1/update/user", handlers.UpdateUser)
-	return http.ListenAndServe(":"+a.config.Addr, nil)
+	// Оборачиваем весь mux в CORS middleware
+	handler := handlers.WithCORS(mux)
+
+	logger.Info(fmt.Sprintf("Server started at :%s", a.config.Addr))
+	return http.ListenAndServe(":"+a.config.Addr, handler)
 }
+
+// func (a *Application) RunServer() error {
+
+// 	logger.Info(fmt.Sprintf("Server started address: %s", a.config.Addr))
+
+// 	http.HandleFunc("/api/v1/calculate", handlers.AddExpressionsHandler)
+// 	http.HandleFunc("/api/v1/expressions", handlers.GetExpressionsListHandler)
+// 	http.HandleFunc("/api/v1/expressions/{id}", handlers.GetExpressionByIDHandler)
+// 	http.HandleFunc("/api/v1/register", handlers.RegisterUser)
+// 	http.HandleFunc("/api/v1/login", handlers.LoginUser)
+// 	http.HandleFunc("/api/v1/delete/user", handlers.DeleteUser)
+// 	http.HandleFunc("/internal/task", handlers.GetTaskHandler)
+// 	http.HandleFunc("/api/v1/delete/expressions", handlers.DeleteExpressions)
+// 	http.HandleFunc("/api/v1/delete/expressions/{id}", handlers.DeleteExpressionByID)
+// 	http.HandleFunc("/api/v1/update/user", handlers.UpdateUser)
+
+// 	return http.ListenAndServe(":"+a.config.Addr, nil)
+// }

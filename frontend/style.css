@@ -1,112 +1,95 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-   background-color: #fff;
-    
-}
 
-.delete-icon{
-    
-    margin: 1px;
-    height: 20px;
-    width: 20px;
-    
-}
-.account_icon{
-    display: block;
-    top: 0;
-    right: 0;
-    margin-right: 10px;
-    margin-top: 10px;
-    position: absolute;
-   
-}
-.account_icon:hover{
-    border-radius: 20%;
-    background-color: #c4c4c4;
-}
-.Expression{
-    margin: 5px;
-    color: #505050;
-    font-family: "Shantell Sans", serif;
-    
-    font-size: 2.5vh;
+body {
+  font-family: "Shantell Sans", serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
 }
 .Header{
-    font-family: "Atkinson Hyperlegible Mono", serif;;
-    color:#000;
-    font-size: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 10px;
-    margin-top: 10vh;
-    
-}
-#back{
-    margin-top: 5vh;
-}
-.Buttons{
-    align-items: center;
-    display: flex;
-    flex-flow: column;
-    margin: 10vh;
-    margin-top: 10vh;
-    justify-content: center;
-    
+  font-family: "Atkinson Hyperlegible Mono", serif;;
+  color:#000;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  margin-top: 10vh;
+  
 }
 
-.input_text{
-    font-size: 2vh;
-    position: relative;
-    border: 2px solid #cac7c7;
-    padding: 3px;
-    border-radius: 30px;
-}
-.input_text:focus{
-    border: 2px solid #cac7c7;
-    padding: 3px;
-    border-radius: 30px;
-    
-}
-p{
-    position: relative;
-    margin: auto;
-}
-.Btn{
-    
-    font-family: "Shantell Sans", serif;
-    
-    font-size: 2.5vh;
-    height: 40px;
-    border: medium solid #fff;
-
-    border-radius: 30px;
-    align-items: center;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    width: auto;
-    padding: 20px;
-   
-    margin: 5px;
-    
-    
+#app {
+  max-width: 600px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-.Btn:hover{
-    background-color: #cecece;
+input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
-#formExp{
-    font-family: "Shantell Sans", serif;
+#buttons{
+ 
+  width: auto;
+  display: flex;
+  /* align-items: center; */
+  
+  /* justify-content: center; */
+}
+
+
+
+button{
     
-    font-size: 3vh;
-    border: medium solid #fff;
-    display: flex;
-   justify-content: center;
-   flex-flow: column;
-   flex-direction: column;
-    
-    border-radius: 30px;
+  font-family: "Shantell Sans", serif;
+  
+  font-size: 1.5vh;
+  height: 40px;
+  border: medium solid #fff;
+
+  border-radius: 30px;
+  align-items: center;
+  display: flex; 
+  flex-flow: column;
+  justify-content: center;
+  width: auto;
+  padding: 20px;
+ 
+  margin: 5px;
+  
+  
+}
+
+button:hover{
+  background-color: #cecece;
+}
+
+#expressions-list {
+  list-style: none;
+  padding: 0;
+}
+
+#expressions-list li {
+  padding: 10px;
+  background-color: #eee;
+  margin: 5px 0;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#expressions-list button {
+  background-color: #dc3545;
+  margin-left: 10px;
+}
+
+#expressions-list button:hover {
+  background-color: #c82333;
 }

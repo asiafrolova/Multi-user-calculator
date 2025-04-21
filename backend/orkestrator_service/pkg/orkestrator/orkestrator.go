@@ -21,7 +21,7 @@ var (
 // Структура выражения
 type Expression struct {
 	Id                       string             `json:"id"`
-	Exp                      string             `json:"-"`
+	Exp                      string             `json:"exp"`
 	Status                   string             `json:"status"`
 	Result                   float64            `json:"result"`
 	SimpleExpressions        []SimpleExpression `json:"-"`
