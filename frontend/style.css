@@ -1,0 +1,112 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+   background-color: #fff;
+    
+}
+
+.delete-icon{
+    
+    margin: 1px;
+    height: 20px;
+    width: 20px;
+    
+}
+.account_icon{
+    display: block;
+    top: 0;
+    right: 0;
+    margin-right: 10px;
+    margin-top: 10px;
+    position: absolute;
+   
+}
+.account_icon:hover{
+    border-radius: 20%;
+    background-color: #c4c4c4;
+}
+.Expression{
+    margin: 5px;
+    color: #505050;
+    font-family: "Shantell Sans", serif;
+    
+    font-size: 2.5vh;
+}
+.Header{
+    font-family: "Atkinson Hyperlegible Mono", serif;;
+    color:#000;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    margin-top: 10vh;
+    
+}
+#back{
+    margin-top: 5vh;
+}
+.Buttons{
+    align-items: center;
+    display: flex;
+    flex-flow: column;
+    margin: 10vh;
+    margin-top: 10vh;
+    justify-content: center;
+    
+}
+
+.input_text{
+    font-size: 2vh;
+    position: relative;
+    border: 2px solid #cac7c7;
+    padding: 3px;
+    border-radius: 30px;
+}
+.input_text:focus{
+    border: 2px solid #cac7c7;
+    padding: 3px;
+    border-radius: 30px;
+    
+}
+p{
+    position: relative;
+    margin: auto;
+}
+.Btn{
+    
+    font-family: "Shantell Sans", serif;
+    
+    font-size: 2.5vh;
+    height: 40px;
+    border: medium solid #fff;
+
+    border-radius: 30px;
+    align-items: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    width: auto;
+    padding: 20px;
+   
+    margin: 5px;
+    
+    
+}
+
+.Btn:hover{
+    background-color: #cecece;
+}
+#formExp{
+    font-family: "Shantell Sans", serif;
+    
+    font-size: 3vh;
+    border: medium solid #fff;
+    display: flex;
+   justify-content: center;
+   flex-flow: column;
+   flex-direction: column;
+    
+    border-radius: 30px;
+}
