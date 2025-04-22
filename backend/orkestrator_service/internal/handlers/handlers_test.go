@@ -19,7 +19,7 @@ import (
 func RegisterAndLoginUser() string {
 	logger.Init()
 	postBody := map[string]interface{}{
-		"name":     "Vasya",
+		"login":    "Vasya",
 		"password": "qwerty",
 	}
 	body, _ := json.Marshal(postBody)
@@ -27,7 +27,7 @@ func RegisterAndLoginUser() string {
 	w := httptest.NewRecorder()
 	handlers.RegisterUser(w, req)
 	postBody = map[string]interface{}{
-		"name":     "Vasya",
+		"login":    "Vasya",
 		"password": "qwerty",
 	}
 	body, _ = json.Marshal(postBody)
@@ -71,7 +71,7 @@ func TestRegisterUser(t *testing.T) {
 	logger.Init()
 	user1 := database.User{Name: "Vasya", Password: "qwerty1234"}
 	postBody := map[string]interface{}{
-		"name":     user1.Name,
+		"login":    user1.Name,
 		"password": user1.Password,
 	}
 	body, _ := json.Marshal(postBody)
@@ -95,7 +95,7 @@ func TestRegisterUser(t *testing.T) {
 	}
 	name := ""
 	for key, val := range *respBody {
-		if key == "name" {
+		if key == "login" {
 			name = fmt.Sprint(val)
 			break
 		}
@@ -104,7 +104,7 @@ func TestRegisterUser(t *testing.T) {
 		t.Fatalf("Invalid name wan: %v, got: %v", user1.Name, name)
 	}
 	postBody = map[string]interface{}{
-		"name":     user1.Name,
+		"login":    user1.Name,
 		"password": user1.Password,
 	}
 	body, _ = json.Marshal(postBody)

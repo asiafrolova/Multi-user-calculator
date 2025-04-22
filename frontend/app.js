@@ -50,7 +50,7 @@ function login() {
 function submitExpression() {
   
   const expression = document.getElementById('expression').value;
-  console.log("AAA")
+  
   fetch('http://localhost:8080/api/v1/calculate', {
     method: 'POST',
     headers: {

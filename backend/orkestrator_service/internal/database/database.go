@@ -98,6 +98,7 @@ func InsertUser(user *User) (error, int) {
 		return orkestrator.ErrBadPassword, -1
 	}
 	if len(user.Name) < 4 {
+
 		return orkestrator.ErrBadName, -1
 	}
 	result, err := db.ExecContext(ctx, q, user.Name, user.Password)

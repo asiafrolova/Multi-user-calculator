@@ -1,17 +1,19 @@
 package application
 
 import (
-	"bytes"
-	"encoding/json"
+	"context"
 
 	"fmt"
-	"net/http"
 	"os"
 	"strconv"
 	"time"
 
 	logger "github.com/asiafrolova/Multi-user-calculator/agent_service/internal/logger"
 	calculator "github.com/asiafrolova/Multi-user-calculator/agent_service/pkg"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+
+	pb "github.com/asiafrolova/Multi-user-calculator/proto"
 )
 
 type Config struct {
@@ -55,6 +57,15 @@ func New() *Application {
 // Запуск агента
 func (a *Application) RunAgent() error {
 
+	ctx := context.Background()
+	conn, err := grpc.Dial("localhost:5000", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		logger.Error(fmt.Sprintf("could not connect to grpc server:%v", err))
+
+	}
+	defer conn.Close()
+	grpcClient := pb.NewCalculatorServiceClient(conn)
+
 	jobs := make(chan calculator.SimpleExpression, 100)
 	results := make(chan calculator.SimpleExpression, 100)
 	//Создание воркеров нужного количества
@@ -65,9 +76,26 @@ func (a *Application) RunAgent() error {
 	for {
 		select {
 		case e := <-results:
-			a.PushResult(&e)
+
+			request := pb.PushResultRequest{
+				Id:     e.Id,
+				Result: float32(e.Result),
+				Error:  e.Error,
+			}
+			grpcClient.PushResult(ctx, &request)
 		default:
-			task, err := a.GetTask()
+
+			response, err := grpcClient.GetTask(ctx, nil)
+			if response == nil {
+				continue
+			}
+			task := calculator.SimpleExpression{
+				Id:             response.Id,
+				Arg1:           response.Arg1,
+				Arg2:           response.Arg2,
+				Operation:      response.Operation,
+				Operation_time: int(response.OperationTime),
+			}
 			if err == nil {
 
 				jobs <- task
@@ -92,41 +120,4 @@ func Worker(id int, jobs <-chan calculator.SimpleExpression, results chan<- calc
 		logger.Info(fmt.Sprintf("Worker %d finished task %s with result %f", id, task.Id, task.Result))
 
 	}
-}
-
-// Получение задачи
-func (a *Application) GetTask() (calculator.SimpleExpression, error) {
-	resp, err := http.Get(fmt.Sprintf("http://localhost:%s/internal/task", a.config.Addr))
-	if resp == nil {
-		return calculator.SimpleExpression{}, calculator.ErrServerNotWork
-	}
-	if resp.StatusCode == http.StatusOK {
-		response := ResponseTask{}
-		err = json.NewDecoder(resp.Body).Decode(&response)
-		if err == nil {
-			logger.Info(fmt.Sprintf("task %v received", response.Task))
-			return response.Task, nil
-		} else {
-			logger.Error(fmt.Sprintf("Unexpected error %v", err))
-			return calculator.SimpleExpression{}, err
-		}
-	} else {
-
-		return calculator.SimpleExpression{}, calculator.ErrNotExpression
-	}
-}
-
-// Отправка ответа
-func (a *Application) PushResult(e *calculator.SimpleExpression) {
-	request := RequestResult{Id: e.Id, Result: e.Result, Err: e.Error}
-	body, err := json.Marshal(request)
-	if err != nil {
-		logger.Error(fmt.Sprintf("Unexpected error %v", err))
-	}
-	resp, err := http.Post(fmt.Sprintf("http://localhost:%s/internal/task", a.config.Addr), "application/json", bytes.NewReader(body))
-	if err != nil || resp.StatusCode != http.StatusOK {
-		logger.Error(fmt.Sprintf("Unexpected error %v or bad StatusCode %v ", err, resp.StatusCode))
-
-	}
-
 }

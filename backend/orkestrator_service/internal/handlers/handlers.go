@@ -402,7 +402,7 @@ func RegisterUser(w http.ResponseWriter, r *http.Request) {
 	database.Init()
 	err, id := database.InsertUser(&user)
 	if err != nil {
-		logger.Error(err.Error())
+		logger.Error(fmt.Sprintf("%v |%v|", err.Error(), request))
 		http.Error(w, err.Error(), http.StatusBadRequest) //Ошибка при регистрации
 		return
 
@@ -557,82 +557,6 @@ func GetExpressionByIDHandler(w http.ResponseWriter, r *http.Request) {
 	logger.Info("Expression by id returned successfully")
 }
 
-// Хендлер для отправки задач агенту
-func GetTaskHandler(w http.ResponseWriter, r *http.Request) {
-
-	if r.Method == "POST" {
-		//Переключение на хэндлер получения результата
-		GetResultTaskHandle(w, r)
-		return
-
-	}
-	w.Header().Set("Content-Type", "application/json")
-	timer := time.NewTimer(WAITING_TIME)
-	repo.Init()
-	repo.GetSimpleOperations()
-	select {
-	case <-timer.C:
-		//Если время истекло отвечаем, что нет задач
-		http.Error(w, orkestrator.ErrNotExpression.Error(), http.StatusNotFound)
-		return
-	case sExp := <-repo.SimpleExpressions:
-		//Задача нашлась
-		response := ResponseGetTask{Task: sExp}
-		res, err := json.Marshal(response)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError) //Ошибка при сериализации
-
-		}
-
-		w.WriteHeader(http.StatusOK)
-		w.Write(res)
-		logger.Info(fmt.Sprintf("Task %v sent successfully", response))
-	}
-}
-
-// Хендлер для получения результатов от агента
-func GetResultTaskHandle(w http.ResponseWriter, r *http.Request) {
-	request := RequestAddResult{}
-	defer r.Body.Close()
-
-	w.Header().Set("Content-Type", "application/json")
-	err := json.NewDecoder(r.Body).Decode(&request)
-	repo.Init()
-
-	if err != nil {
-		logger.Error(err.Error())
-		http.Error(w, err.Error(), http.StatusUnprocessableEntity) //Ошибка при десериализации
-		return
-	}
-
-	if request.Err != "" {
-		//Пришла ошибка при вычислении
-		err = repo.SetResult(request.Id, 0, fmt.Errorf(request.Err))
-		if err == orkestrator.ErrKeyExists {
-			http.Error(w, err.Error(), http.StatusNotFound)
-		} else if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		} else {
-			logger.Info("Got an error in the task")
-		}
-
-	} else {
-
-		err = repo.SetResult(request.Id, request.Result, nil)
-		if err == orkestrator.ErrKeyExists {
-			//Пришел несуществующий ключ
-			http.Error(w, err.Error(), http.StatusNotFound)
-
-		} else if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-
-		} else {
-			logger.Info("The task result was successfully written")
-		}
-
-	}
-
-}
 func generate(s string) (string, error) {
 	saltedBytes := []byte(s)
 	hashedBytes, err := bcrypt.GenerateFromPassword(saltedBytes, bcrypt.DefaultCost)
